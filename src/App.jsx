@@ -1,14 +1,14 @@
 import React from "react";
-import Hero from "./components/Hero";
-import Services from "./components/Services";
-import Testimonials from "./components/Testimonials";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage.jsx";
 
 function App() {
   return (
-    <main className="font-sans">
-      <Hero /> <Services />  <Testimonials />
-
-    </main>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+      </Routes>
+    </Router>
   );
 }
 
