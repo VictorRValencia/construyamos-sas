@@ -1,118 +1,138 @@
 import React, { useEffect, useState } from "react";
-import { getPhotosByProcesoCategory } from "../api/photosApi";
+import { projectsMap } from "../api/projectMapAPI";
 
 const styles = {
   section: {
     backgroundColor: "#f9fafb",
-    padding: "5rem 1.5rem",
+    padding: "4rem 1rem",
   },
   container: {
-    maxWidth: "72rem",
+    maxWidth: "1200px",
     margin: "0 auto",
-    textAlign: "center",
   },
   title: {
     fontSize: "1.875rem",
     fontWeight: "bold",
     color: "#111827",
-    marginBottom: "3rem",
+    marginBottom: "2rem",
+    textAlign: "center",
   },
-  loadingText: {
-    color: "#6b7280",
-    fontSize: "1rem",
-  },
-  grid: {
+  cardsGrid: {
     display: "grid",
-    gap: "1.5rem",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "1.25rem",
   },
   card: {
-    overflow: "hidden",
     borderRadius: "0.75rem",
-    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+    overflow: "hidden",
     backgroundColor: "#ffffff",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
     cursor: "pointer",
+    transition: "transform 0.3s ease",
   },
   cardHover: {
-    transform: "scale(1.03)",
-    boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+    transform: "scale(1.02)",
   },
-  imageWrapper: {
+  previewWrapper: {
+    position: "relative",
     width: "100%",
     aspectRatio: "4 / 3",
     overflow: "hidden",
   },
-  image: {
+  previewImage: {
     width: "100%",
     height: "100%",
     objectFit: "cover",
-    display: "block",
+    filter: "blur(3px)",
   },
-  description: {
-    padding: "1rem",
-    color: "#374151",
-    fontSize: "0.875rem",
-    textAlign: "left",
+  nameOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: "1rem",
+    textAlign: "center",
+    padding: "0.5rem",
+  },
+  galleryWrapper: {
+    marginTop: "0.5rem",
+    padding: "0.5rem",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+    gap: "0.5rem",
+  },
+  galleryImage: {
+    width: "100%",
+    height: "100px",
+    objectFit: "cover",
+    borderRadius: "0.5rem",
   },
 };
 
-const PhotoGallery = () => {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
+const ProjectsGallery = () => {
+  const [projects, setProjects] = useState([]);
+  const [openProject, setOpenProject] = useState(null);
 
   useEffect(() => {
-    const fetchPhotos = async () => {
-      const res = await getPhotosByProcesoCategory();
-      if (res.success) {
-        setPhotos(res.fotos);
-      }
-      setLoading(false);
+    const fetchData = async () => {
+      const data = await projectsMap();
+      setProjects(data);
     };
-
-    fetchPhotos();
+    fetchData();
   }, []);
 
+  const toggleProject = (id) => {
+    setOpenProject(openProject === id ? null : id);
+  };
+
   return (
-    <section style={styles.section}>
+    <section style={styles.section} id="galeria">
       <div style={styles.container}>
         <h2 style={styles.title}>Galería de Proyectos</h2>
 
-        {loading ? (
-          <p style={styles.loadingText}>Cargando fotos...</p>
-        ) : (
-          <div style={styles.grid}>
-            {photos.map((photo) => (
-              <div
-                key={photo.id}
-                style={styles.card}
-                onMouseEnter={(e) =>
-                  Object.assign(e.currentTarget.style, styles.cardHover)
-                }
-                onMouseLeave={(e) =>
-                  Object.assign(e.currentTarget.style, {
-                    transform: "scale(1)",
-                    boxShadow: styles.card.boxShadow,
-                  })
-                }
-              >
-                <div style={styles.imageWrapper}>
-                  <img
-                    src={photo.url}
-                    alt={photo.descripcion || "Foto del proyecto"}
-                    style={styles.image}
-                  />
-                </div>
-                {photo.descripcion && (
-                  <p style={styles.description}>{photo.descripcion}</p>
-                )}
+        <div style={styles.cardsGrid}>
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              style={styles.card}
+              onClick={() => toggleProject(project.id)}
+              onMouseEnter={(e) =>
+                Object.assign(e.currentTarget.style, styles.cardHover)
+              }
+              onMouseLeave={(e) =>
+                Object.assign(e.currentTarget.style, { transform: "scale(1)" })
+              }
+            >
+              <div style={styles.previewWrapper}>
+                <img
+                  src={project.images?.[0]}
+                  alt={project.name}
+                  style={styles.previewImage}
+                />
+                <div style={styles.nameOverlay}>{project.name}</div>
               </div>
-            ))}
-          </div>
-        )}
+
+              {openProject === project.id && (
+                <div style={styles.galleryWrapper}>
+                  {project.images?.map((url, idx) => (
+                    <img
+                      key={idx}
+                      src={url}
+                      alt={`Foto ${idx + 1}`}
+                      style={styles.galleryImage}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 };
 
-export default PhotoGallery;
+export default ProjectsGallery;
