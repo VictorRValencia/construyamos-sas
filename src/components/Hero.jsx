@@ -1,5 +1,5 @@
 import React from "react";
-import backgroundImage from "../assets/images/background.png";
+import backgroundImageWebp from "../assets/images/background.webp";
 
 const Hero = () => {
   const [hoverPrimary, setHoverPrimary] = React.useState(false);
@@ -14,7 +14,7 @@ const Hero = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          backgroundColor: "rgba(27, 23, 23, 0.5)",
           zIndex: 0,
         }}
       ></div>
@@ -68,7 +68,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     padding: "2rem 1.5rem",
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url(${backgroundImageWebp})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
