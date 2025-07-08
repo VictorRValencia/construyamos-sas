@@ -1,4 +1,4 @@
-import { app } from "../firebase/config.js"; // Asegúrate de que la ruta sea correcta
+import { app } from "../firebase/config.js";
 import {
   getFirestore,
   collection,

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import logo from "../assets/images/logo.png";
 
 const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -8,7 +9,7 @@ const Header = () => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (!mobile) setMenuOpen(false); // Cerrar menú si pasa a modo desktop
+      if (!mobile) setMenuOpen(false);
     };
 
     window.addEventListener("resize", handleResize);
@@ -80,7 +81,13 @@ const Header = () => {
   return (
     <header style={headerStyle}>
       <div style={containerStyle}>
-        <div style={logoStyle}>Construyamos S.A.S.</div>
+        <div style={logoStyle}>
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ height: "40px", objectFit: "contain" }}
+          />
+        </div>
 
         <div style={hamburgerStyle} onClick={() => setMenuOpen(!menuOpen)}>
           ☰
@@ -88,7 +95,7 @@ const Header = () => {
 
         <nav style={navContainerStyle}>
           <a
-            href="#nosotros"
+            href="#us"
             style={linkStyle}
             onMouseOver={(e) => (e.currentTarget.style.color = "#16a34a")}
             onMouseOut={(e) => (e.currentTarget.style.color = "#4b5563")}
@@ -96,7 +103,7 @@ const Header = () => {
             Nosotros
           </a>
           <a
-            href="#proyectos"
+            href="#projectsGallery"
             style={linkStyle}
             onMouseOver={(e) => (e.currentTarget.style.color = "#16a34a")}
             onMouseOut={(e) => (e.currentTarget.style.color = "#4b5563")}

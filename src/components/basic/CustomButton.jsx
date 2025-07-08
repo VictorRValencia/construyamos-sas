@@ -2,31 +2,31 @@ import React from "react";
 
 const styles = {
   base: {
-    padding: "0.5rem 1rem", // px-4 py-2
-    borderRadius: "0.375rem", // rounded
-    fontWeight: 500, // font-medium
-    transition: "background-color 0.2s ease", // transition duration-200
-    outline: "none", // focus:outline-none
+    padding: "0.5rem 1rem",  
+    borderRadius: "0.375rem",
+    fontWeight: 500, 
+    transition: "background-color 0.2s ease", 
+    outline: "none", 
     cursor: "pointer",
   },
   variants: {
     primary: {
-      backgroundColor: "#2563EB", // bg-blue-600
+      backgroundColor: "#2563EB", 
       color: "#FFFFFF",
     },
     secondary: {
-      backgroundColor: "#E5E7EB", // bg-gray-200
-      color: "#1F2937", // text-gray-800
+      backgroundColor: "#E5E7EB", 
+      color: "#1F2937", 
     },
     danger: {
-      backgroundColor: "#EF4444", // bg-red-500
+      backgroundColor: "#EF4444", 
       color: "#FFFFFF",
     },
   },
   hoverVariants: {
-    primary: { backgroundColor: "#1D4ED8" }, // hover:bg-blue-700
-    secondary: { backgroundColor: "#D1D5DB" }, // hover:bg-gray-300
-    danger: { backgroundColor: "#DC2626" }, // hover:bg-red-600
+    primary: { backgroundColor: "#1D4ED8" }, 
+    secondary: { backgroundColor: "#D1D5DB" }, 
+    danger: { backgroundColor: "#DC2626" }, 
   },
 };
 

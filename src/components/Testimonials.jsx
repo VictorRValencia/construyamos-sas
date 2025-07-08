@@ -1,25 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-const testimonials = [
-  {
-    name: "Laura Rodríguez",
-    quote:
-      "Construyamos S.A.S. remodeló mi apartamento y superaron todas mis expectativas. Puntuales, profesionales y con gran atención al detalle.",
-    image: "https://i.pravatar.cc/150?img=32",
-  },
-  {
-    name: "Carlos Mendoza",
-    quote:
-      "Muy satisfecho con el trabajo de construcción en mi finca. Todo quedó perfecto, y el equipo fue muy profesional.",
-    image: "https://i.pravatar.cc/150?img=12",
-  },
-  {
-    name: "Ana Gómez",
-    quote:
-      "El mantenimiento que hicieron en mi local fue impecable. ¡Definitivamente los volveré a contratar!",
-    image: "https://i.pravatar.cc/150?img=45",
-  },
-];
+import testimonials from "../utils/testimonials.json"; 
 
 const styles = {
   section: {

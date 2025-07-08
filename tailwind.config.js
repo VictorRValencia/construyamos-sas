@@ -1,4 +1,3 @@
-// tailwind.config.js
 import tailwindScrollbar from "tailwind-scrollbar";
 
 /** @type {import('tailwindcss').Config} */

@@ -2,24 +2,24 @@ import React from "react";
 
 const styles = {
   wrapper: {
-    marginBottom: "1rem", // mb-4
+    marginBottom: "1rem",
   },
   label: {
     display: "block",
-    fontSize: "0.875rem", // text-sm
-    fontWeight: 500, // font-medium
-    color: "#374151", // text-gray-700
-    marginBottom: "0.25rem", // mb-1
+    fontSize: "0.875rem",
+    fontWeight: 500,
+    color: "#374151",
+    marginBottom: "0.25rem",
   },
   input: {
-    width: "100%",
-    border: "1px solid #D1D5DB", // border-gray-300
-    borderRadius: "0.375rem", // rounded
-    padding: "0.5rem 1rem", // px-4 py-2
+    width: "90%",
+    border: "1px solid #D1D5DB",
+    borderRadius: "0.375rem",
+    padding: "0.5rem 1rem",
     fontSize: "1rem",
   },
   textarea: {
-    width: "100%",
+    width: "90%",
     border: "1px solid #D1D5DB",
     borderRadius: "0.375rem",
     padding: "0.5rem 1rem",

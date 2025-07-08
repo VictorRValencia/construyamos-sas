@@ -20,7 +20,7 @@ const services = [
 
 const styles = {
   section: {
-    backgroundColor: "#f9fafb", // gray-50
+    backgroundColor: "#f9fafb",
     padding: "5rem 1.5rem",
   },
   container: {

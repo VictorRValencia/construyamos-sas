@@ -1,8 +1,8 @@
 import React from "react";
 import Testimonios from "../components/Testimonials";
-import GaleriaFotos from "../components/PhotoGallery";
+import GaleriaFotos from "../components/ProjectsGallery.jsx";
 import ProjectMap from "../components/ProjectMap";
-import ContactForm from "../components/ContactForm.jsx"; // Si ya lo tienes
+import ContactForm from "../components/ContactForm.jsx";
 import Hero from "../components/Hero.jsx";
 import Footer from "../components/Footer.jsx";
 import WhatsAppButton from "../components/basic/WhatsAppButton.jsx";

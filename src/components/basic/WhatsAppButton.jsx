@@ -17,8 +17,8 @@ const WhatsAppButton = () => {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     textDecoration: "none",
     paddingLeft: "1rem",
-    paddingRight: "0.25rem", // más pequeño para acomodar el círculo
-    height: "3.5rem", // altura total del botón
+    paddingRight: "0.25rem",
+    height: "3.5rem",
     transition: "transform 0.2s ease-in-out",
   };
 
@@ -31,7 +31,7 @@ const WhatsAppButton = () => {
   const iconWrapperStyle = {
     width: "2.5rem",
     height: "2.5rem",
-    backgroundColor: "#22c55e", // verde
+    backgroundColor: "#22c55e",
     borderRadius: "50%",
     display: "flex",
     alignItems: "center",

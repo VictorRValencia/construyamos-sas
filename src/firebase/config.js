@@ -1,5 +1,4 @@
 
-// src/firebase/firebaseConfig.js
 import { initializeApp, getApps } from "firebase/app";
 
 const firebaseConfig = {

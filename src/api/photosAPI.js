@@ -5,7 +5,6 @@ export const getPhotosByProcesoCategory = async () => {
   try {
     const db = getFirestore(app);
 
-    // 2. Obtener las fotos asociadas a ese número
     const fotosRef = collection(db, "photo");
     const fotosSnapshot = await getDocs(fotosRef);
 

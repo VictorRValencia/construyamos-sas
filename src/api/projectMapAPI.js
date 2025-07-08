@@ -1,4 +1,3 @@
-// src/api/workLocationsAPI.js
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { app } from "../firebase/config.js";
 
