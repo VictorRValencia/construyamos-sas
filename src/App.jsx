@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage.jsx";
 import "./App.css";
+import AdminContactView from "./pages/AdminContactView.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 function App() {
   return (
@@ -9,6 +11,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="admin/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminContactView />} />
         </Routes>
       </Router>
     </div>

@@ -4,6 +4,7 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  getDocs,
 } from "firebase/firestore";
 
 export const sendContactMessage = async (data) => {
@@ -19,4 +20,12 @@ export const sendContactMessage = async (data) => {
     console.error("Error al enviar mensaje de contacto:", error);
     return { success: false, error };
   }
+};
+export const getContactMessages = async () => {
+  const db = getFirestore(app);
+  const querySnapshot = await getDocs(collection(db, "contact"));
+  return querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
