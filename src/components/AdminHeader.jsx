@@ -1,22 +1,28 @@
 import React from "react";
-import { getAuth, signOut } from "firebase/auth";
+import { logout } from "../api/authenticationAPI";
 import { useNavigate } from "react-router-dom";
+import CustomButton from "./basic/CustomButton";
 
 const AdminHeader = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const auth = getAuth();
-    await signOut(auth);
-    navigate("/admin/login");
+    try {
+      await logout();
+      navigate("/admin/login");
+    } catch (error) {
+      console.error("Error cerrando sesión:", error);
+    }
   };
 
   return (
     <header style={styles.header}>
       <h1 style={styles.title}>Construyamos S.A.S. Admin</h1>
-      <button onClick={handleLogout} style={styles.button}>
-        Cerrar sesión
-      </button>
+      <CustomButton
+        children="Cerrar sesión"
+        onClick={handleLogout}
+        style={styles.button}
+      />
     </header>
   );
 };
@@ -28,13 +34,13 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#2563eb", // blue-600
+    backgroundColor: "#2563eb",
     color: "white",
     padding: "1rem 1.5rem",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   },
   title: {
-    fontSize: "1.25rem", // text-xl
+    fontSize: "1.25rem",
     fontWeight: "bold",
   },
   button: {

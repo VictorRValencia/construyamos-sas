@@ -1,80 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
+import LoadingSpinner from "./basic/LoadingSpinner";
+import ContactTableHeader from "./formAdmin/ContactTableHeader";
+import ContactTableRow from "./formAdmin/ContactTableRow";
 
-const ContactMessagesTable = ({ messages }) => {
-  if (messages.length === 0) {
-    return <p style={styles.noData}>No hay mensajes por mostrar.</p>;
-  }
+import {
+  sortData as sortDataUtil,
+  requestSort as requestSortUtil,
+  formatDate,
+  openWhatsApp,
+  openGmail,
+} from "../utils/tableUtils";
 
-  // Ordenar por fecha más reciente
-  const sortedMessages = [...messages].sort((a, b) => {
-    const dateA = a.createdAt?.toDate?.() || new Date(a.createdAt);
-    const dateB = b.createdAt?.toDate?.() || new Date(b.createdAt);
-    return dateB - dateA;
+const ContactMessagesTable = ({ messages: initialMessages }) => {
+  const [messages, setMessages] = useState(initialMessages);
+  const [sortConfig, setSortConfig] = useState({
+    key: "createdAt",
+    direction: "desc",
   });
 
-  const openWhatsApp = (telefono) => {
-    const cleanNumber = telefono.replace(/\D/g, "");
-    const url = `https://wa.me/57${cleanNumber}`;
-    window.open(url, "_blank");
+  const sortedMessages = sortDataUtil(messages, sortConfig);
+  
+  const handleSort = (key) => {
+    setSortConfig((prev) => requestSortUtil(key, prev));
   };
 
-  const sendEmail = (email) => {
-    window.location.href = `mailto:${email}`;
+  const handleUpdateContact = (updatedContact) => {
+    setMessages((prev) =>
+      prev.map((msg) => (msg.id === updatedContact.id ? updatedContact : msg))
+    );
   };
 
-  const formatDate = (date) => {
-    const d = date instanceof Date ? date : new Date(date);
-    return d.toLocaleString("es-CO", {
-      dateStyle: "short",
-      timeStyle: "short",
-    });
+  const renderHeader = (label, key) => {
+    const isActive = sortConfig.key === key;
+    const arrow = isActive
+      ? sortConfig.direction === "asc"
+        ? " ▲"
+        : " ▼"
+      : "";
+
+    return (
+      <th style={styles.th} onClick={() => handleSort(key)}>
+        {label}
+        {arrow}
+      </th>
+    );
   };
 
   return (
-    <div style={styles.container}>
-      <table style={styles.table}>
-        <thead style={styles.thead}>
-          <tr>
-            <th style={styles.th}>Nombre</th>
-            <th style={styles.th}>Correo</th>
-            <th style={styles.th}>Teléfono</th>
-            <th style={styles.th}>Mensaje</th>
-            <th style={styles.th}>Fecha</th>
-            <th style={styles.th}>WhatsApp</th>
-            <th style={styles.th}>Correo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedMessages.map((msg) => {
-            const fecha = msg.createdAt?.toDate?.() || new Date(msg.createdAt);
-            return (
-              <tr key={msg.id} style={styles.tr}>
-                <td style={styles.td}>{msg.name}</td>
-                <td style={styles.td}>{msg.email}</td>
-                <td style={styles.td}>{msg.telefono}</td>
-                <td style={styles.td}>{msg.message}</td>
-                <td style={styles.td}>{formatDate(fecha)}</td>
-                <td style={styles.td}>
-                  <button
-                    onClick={() => openWhatsApp(msg.telefono)}
-                    style={styles.actionButton}
-                  >
-                    WhatsApp
-                  </button>
-                </td>
-                <td style={styles.td}>
-                  <button
-                    onClick={() => sendEmail(msg.email)}
-                    style={styles.actionButton}
-                  >
-                    Correo
-                  </button>
+    <div style={{ ...styles.container, ...styles.fullHeight }}>
+      <div style={styles.tableWrapper}>
+        <table style={styles.table}>
+          <ContactTableHeader renderHeader={renderHeader} />
+          <tbody style={styles.tbody}>
+            {sortedMessages.length > 0 ? (
+              sortedMessages.map((msg) => (
+                <ContactTableRow
+                  key={msg.id}
+                  msg={msg}
+                  formatDate={formatDate}
+                  openWhatsApp={openWhatsApp}
+                  openGmail={openGmail}
+                  onUpdateContact={handleUpdateContact}
+                />
+              ))
+            ) : (
+              <tr>
+                <td style={styles.td} colSpan={7}>
+                  No hay mensajes registrados.
                 </td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -82,6 +80,21 @@ const ContactMessagesTable = ({ messages }) => {
 export default ContactMessagesTable;
 
 const styles = {
+  fullHeight: {
+    minHeight: "calc(100vh - 100px)",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+  },
+  tableWrapper: {
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+  },
+  tbody: {
+    flexGrow: 1,
+  },
+
   noData: {
     padding: "1.5rem",
     fontSize: "1rem",
@@ -96,30 +109,24 @@ const styles = {
     borderCollapse: "collapse",
     border: "1px solid #e5e7eb",
   },
-  thead: {
-    backgroundColor: "#f3f4f6",
-  },
-  th: {
-    border: "1px solid #e5e7eb",
-    padding: "0.5rem 1rem",
-    textAlign: "left",
-    fontWeight: "bold",
+  tr: {
+    transition: "background-color 0.2s ease",
   },
   td: {
     border: "1px solid #e5e7eb",
     padding: "0.5rem 1rem",
     textAlign: "left",
   },
-  tr: {
-    transition: "background-color 0.2s ease",
-  },
-  actionButton: {
-    backgroundColor: "#2563eb", // blue-600
-    color: "white",
-    padding: "0.3rem 0.75rem",
-    borderRadius: "0.375rem",
-    border: "none",
+
+  th: {
+    border: "1px solid #e5e7eb",
+    padding: "0.5rem 1rem",
+    textAlign: "center",
+    fontWeight: "bold",
     cursor: "pointer",
-    fontSize: "0.875rem",
+    userSelect: "none",
+  },
+  thead: {
+    backgroundColor: "#f3f4f6",
   },
 };

@@ -1,5 +1,52 @@
 import React, { useState, useEffect } from "react";
-import testimonials from "../utils/testimonials.json"; 
+import testimonials from "../utils/testimonials.json";
+
+const Testimonials = () => {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <section style={styles.section}>
+      <div style={styles.container}>
+        <h2 style={styles.title}>Lo que dicen nuestros clientes</h2>
+        <div style={styles.grid(isDesktop)}>
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              style={styles.card}
+              onMouseEnter={(e) =>
+                Object.assign(e.currentTarget.style, styles.cardHover)
+              }
+              onMouseLeave={(e) =>
+                Object.assign(e.currentTarget.style, {
+                  boxShadow: styles.card.boxShadow,
+                  transform: "translateY(0)",
+                })
+              }
+            >
+              <div style={styles.cardHeader}>
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  style={styles.avatar}
+                />
+                <h3 style={styles.name}>{testimonial.name}</h3>
+              </div>
+              <p style={styles.quote}>“{testimonial.quote}”</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Testimonials;
 
 const styles = {
   section: {
@@ -58,50 +105,3 @@ const styles = {
     lineHeight: 1.6,
   },
 };
-
-const Testimonials = () => {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
-
-  useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return (
-    <section style={styles.section}>
-      <div style={styles.container}>
-        <h2 style={styles.title}>Lo que dicen nuestros clientes</h2>
-        <div style={styles.grid(isDesktop)}>
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              style={styles.card}
-              onMouseEnter={(e) =>
-                Object.assign(e.currentTarget.style, styles.cardHover)
-              }
-              onMouseLeave={(e) =>
-                Object.assign(e.currentTarget.style, {
-                  boxShadow: styles.card.boxShadow,
-                  transform: "translateY(0)",
-                })
-              }
-            >
-              <div style={styles.cardHeader}>
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  style={styles.avatar}
-                />
-                <h3 style={styles.name}>{testimonial.name}</h3>
-              </div>
-              <p style={styles.quote}>“{testimonial.quote}”</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default Testimonials;

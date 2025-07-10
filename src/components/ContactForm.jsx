@@ -3,19 +3,31 @@ import { sendContactMessage } from "../api/contactAPI";
 import CustomInput from "./basic/CustomInput";
 import CustomButton from "./basic/CustomButton";
 
+import {
+  validateName,
+  validatePhone,
+  validateEmail,
+  validateMessage,
+} from "../utils/validators";
+
 const ContactForm = () => {
   const [status, setStatus] = useState(null);
+  const [errors, setErrors] = useState({});
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const validateForm = (data) => {
+    const newErrors = {
+      name: validateName(data.name),
+      email: validateEmail(data.email),
+      phone: validatePhone(data.phone),
+      message: validateMessage(data.message),
+    };
+
+    setErrors(newErrors);
+
+    return Object.values(newErrors).every((e) => e === null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,9 +35,11 @@ const ContactForm = () => {
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
-      message: formData.get("Mensaje"),
-      telefono: formData.get("Telefono"),
+      message: formData.get("message"),
+      phone: formData.get("phone"),
     };
+
+    if (!validateForm(data)) return;
 
     const result = await sendContactMessage(data);
     if (result.success) {
@@ -35,6 +49,15 @@ const ContactForm = () => {
       setStatus("error");
     }
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
@@ -49,17 +72,26 @@ const ContactForm = () => {
         <h2 style={styles.title}>Contáctanos</h2>
 
         <form onSubmit={handleSubmit} style={styles.form}>
-          <CustomInput label="Nombre completo" name="name" required />
+          <CustomInput
+            label="Nombre completo"
+            name="name"
+            error={errors.name}
+          />
           <CustomInput
             label="Correo electrónico"
             name="email"
             type="email"
-            required
+            error={errors.email}
           />
-          <CustomInput label="Teléfono" name="Telefono" />
-          <CustomInput label="Mensaje" name="Mensaje" textarea required />
+          <CustomInput label="Teléfono" name="phone" error={errors.phone} />
+          <CustomInput
+            label="Mensaje"
+            name="message"
+            textarea
+            error={errors.message}
+          />
 
-          <CustomButton type="submit">Enviar mensaje</CustomButton>
+          <CustomButton type="submit" children="Enviar mensaje" />
 
           {status === "success" && (
             <p style={styles.success}>¡Mensaje enviado con éxito!</p>

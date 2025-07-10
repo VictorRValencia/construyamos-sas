@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import backgroundImageWebp from "../assets/images/background.webp";
 
 const Hero = () => {
-  const [hoverPrimary, setHoverPrimary] = React.useState(false);
-  const [hoverSecondary, setHoverSecondary] = React.useState(false);
+  const [hoverPrimary, setHoverPrimary] = useState(false);
+  const [hoverSecondary, setHoverSecondary] = useState(false);
 
   return (
     <section style={styles.section} id="us">
@@ -60,6 +60,7 @@ const Hero = () => {
 };
 
 export default Hero;
+
 const styles = {
   section: {
     backgroundColor: "white",

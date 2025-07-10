@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import CustomInput from "../components/basic/CustomInput";
+import CustomButton from "../components/basic/CustomButton";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +17,7 @@ const LoginPage = () => {
     const auth = getAuth();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/admin"); // redirige tras login exitoso
+      navigate("/admin");
     } catch (error) {
       setError("Credenciales inválidas o error en el inicio de sesión.");
     }
@@ -26,23 +28,27 @@ const LoginPage = () => {
       <form onSubmit={handleLogin} style={styles.form}>
         <h2 style={styles.title}>Iniciar sesión</h2>
         {error && <p style={styles.error}>{error}</p>}
-        <input
+        <CustomInput
+          label="email"
+          name="email"
           type="email"
-          placeholder="Correo"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={styles.input}
         />
-        <input
+        <CustomInput
+          label="Contraseña"
+          name="password"
           type="password"
-          placeholder="Contraseña"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={styles.input}
         />
-        <button type="submit" style={styles.button}>
+        <CustomButton onClick={handleLogin} type="submit" variant="primary">
           Ingresar
-        </button>
+        </CustomButton>
       </form>
     </div>
   );
@@ -89,7 +95,7 @@ const styles = {
     border: "1px solid #d1d5db",
     borderRadius: "0.5rem",
     fontSize: "1rem",
-    width: "100%",
+    width: "90%",
   },
   button: {
     padding: "0.75rem",

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getContactMessages } from "../api/contactAPI";
 import { useNavigate } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getContactMessages } from "../api/contactAPI";
+import { checkAuthState } from "../api/authenticationAPI";
 import AdminHeader from "../components/AdminHeader";
 import ContactMessagesTable from "../components/ContactMessagesTable";
+import LoadingSpinner from "../components/basic/LoadingSpinner";
 
 const AdminContactView = () => {
   const [messages, setMessages] = useState([]);
@@ -11,27 +12,37 @@ const AdminContactView = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
+    const unsubscribe = checkAuthState(
+      async (user) => {
+        const data = await getContactMessages();
+        setMessages(data);
+        setLoading(false);
+      },
+      () => {
         navigate("/admin/login");
-        return;
       }
-
-      const data = await getContactMessages();
-      setMessages(data);
-      setLoading(false);
-    });
+    );
 
     return () => unsubscribe();
   }, [navigate]);
 
-  if (loading) return <p className="p-6">Cargando mensajes...</p>;
+  const handleStateUpdate = (id, nuevoEstado) => {
+    setMessages((prevMessages) =>
+      prevMessages.map((msg) =>
+        msg.id === id ? { ...msg, state: nuevoEstado } : msg
+      )
+    );
+  };
+
+  if (loading) return <LoadingSpinner message="Cargando" />;
 
   return (
     <div className="min-h-screen bg-gray-50">
       <AdminHeader />
-      <ContactMessagesTable messages={messages} />
+      <ContactMessagesTable
+        messages={messages}
+        onStateUpdate={handleStateUpdate}
+      />
     </div>
   );
 };

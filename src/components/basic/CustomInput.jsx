@@ -1,32 +1,5 @@
 import React from "react";
 
-const styles = {
-  wrapper: {
-    marginBottom: "1rem",
-  },
-  label: {
-    display: "block",
-    fontSize: "0.875rem",
-    fontWeight: 500,
-    color: "#374151",
-    marginBottom: "0.25rem",
-  },
-  input: {
-    width: "90%",
-    border: "1px solid #D1D5DB",
-    borderRadius: "0.375rem",
-    padding: "0.5rem 1rem",
-    fontSize: "1rem",
-  },
-  textarea: {
-    width: "90%",
-    border: "1px solid #D1D5DB",
-    borderRadius: "0.375rem",
-    padding: "0.5rem 1rem",
-    fontSize: "1rem",
-  },
-};
-
 const CustomInput = ({
   label,
   name,
@@ -35,6 +8,7 @@ const CustomInput = ({
   value,
   onChange,
   textarea = false,
+  error,
   ...props
 }) => {
   return (
@@ -67,8 +41,33 @@ const CustomInput = ({
           {...props}
         />
       )}
+      {error && <p style={{ color: "red", fontSize: "0.8rem" }}>{error}</p>}
     </div>
   );
 };
 
 export default CustomInput;
+
+const styles = {
+  label: {
+    display: "block",
+    fontSize: "0.875rem",
+    fontWeight: 500,
+    color: "#374151",
+    marginBottom: "0.25rem",
+  },
+  input: {
+    width: "90%",
+    border: "1px solid #D1D5DB",
+    borderRadius: "0.375rem",
+    padding: "0.5rem 1rem",
+    fontSize: "1rem",
+  },
+  textarea: {
+    width: "90%",
+    border: "1px solid #D1D5DB",
+    borderRadius: "0.375rem",
+    padding: "0.5rem 1rem",
+    fontSize: "1rem",
+  },
+};

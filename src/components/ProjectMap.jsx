@@ -13,52 +13,6 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-const styles = {
-  section: {
-    backgroundColor: "#ffffff",
-    padding: "5rem 1.5rem",
-  },
-  container: {
-    maxWidth: "72rem",
-    margin: "0 auto",
-    textAlign: "center",
-  },
-  title: {
-    fontSize: "1.875rem",
-    fontWeight: "bold",
-    color: "#111827",
-    marginBottom: "2rem",
-  },
-  mapWrapper: {
-    height: "500px",
-    width: "100%",
-    borderRadius: "0.75rem",
-    overflow: "hidden",
-  },
-  popupImage: {
-    width: "8rem",
-    height: "5rem",
-    objectFit: "cover",
-    borderRadius: "0.5rem",
-    margin: "0.25rem",
-    cursor: "pointer",
-  },
-  imageGallery: {
-    display: "flex",
-    flexWrap: "nowrap",
-    overflowX: "auto",
-    marginTop: "0.5rem",
-  },
-  loadingText: {
-    color: "#6b7280",
-    fontSize: "1rem",
-  },
-  errorText: {
-    color: "#dc2626",
-    fontSize: "1rem",
-  },
-};
-
 const ProjectMap = () => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -161,3 +115,49 @@ const ProjectMap = () => {
 };
 
 export default ProjectMap;
+
+const styles = {
+  section: {
+    backgroundColor: "#ffffff",
+    padding: "5rem 1.5rem",
+  },
+  container: {
+    maxWidth: "72rem",
+    margin: "0 auto",
+    textAlign: "center",
+  },
+  title: {
+    fontSize: "1.875rem",
+    fontWeight: "bold",
+    color: "#111827",
+    marginBottom: "2rem",
+  },
+  mapWrapper: {
+    height: "500px",
+    width: "100%",
+    borderRadius: "0.75rem",
+    overflow: "hidden",
+  },
+  popupImage: {
+    width: "8rem",
+    height: "5rem",
+    objectFit: "cover",
+    borderRadius: "0.5rem",
+    margin: "0.25rem",
+    cursor: "pointer",
+  },
+  imageGallery: {
+    display: "flex",
+    flexWrap: "nowrap",
+    overflowX: "auto",
+    marginTop: "0.5rem",
+  },
+  loadingText: {
+    color: "#6b7280",
+    fontSize: "1rem",
+  },
+  errorText: {
+    color: "#dc2626",
+    fontSize: "1rem",
+  },
+};
